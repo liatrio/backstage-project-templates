@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1beta2
 kind: Template
 metadata:
   name: create-react-app-template
-  title: Create React App Template
+  title: Chatbot Starter Kit
   description: Create a new CRA website project
   tags:
     - react
@@ -13,9 +13,14 @@ spec:
   parameters:
     - title: Provide some simple information
       required:
+        - project_name
         - component_id
         - owner
       properties:
+        project_name:
+          title: Name
+          type: string
+          description: Unique name of the component
         component_id:
           title: Name
           type: string
@@ -30,12 +35,12 @@ spec:
           description: Owner of the component
           ui:field: OwnerPicker
           ui:options:
-            allowedKinds: 
+            allowedKinds:
               - Group
-    - title: Choose a location  
+    - title: Choose a location
       required:
         - repoUrl
-      properties: 
+      properties:
         repoUrl:
           title: Repository Location
           type: string
@@ -56,6 +61,20 @@ spec:
           description: '{{ parameters.description }}'
           destination: '{{ parseRepoUrl parameters.repoUrl }}'
           owner: '{{ parameters.owner }}'
+          full_name: "Audrey Roy Greenfeld",
+          email: "audreyr@example.com",
+          github_username: '{{ parameters.owner }}'
+          project_name: "{{ parameters.project_name }}",
+          project_slug: "{{ parameters.project_name }}",
+          project_short_description: "Python Boilerplate contains all the boilerplate you need to create a Python package.",
+          pypi_username": "{{ parameters.owner }}"
+          version": "0.1.0"
+          use_pytest: "n"
+          use_pypi_deployment_with_travis: "y"
+          add_pyup_badge: "n"
+          command_line_interface: "No command-line interface"
+          create_author_file": "y"
+          open_source_license": "MIT license"
 
     - id: publish
       name: Publish
