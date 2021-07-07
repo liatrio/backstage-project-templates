@@ -10,41 +10,31 @@ metadata:
     - node
 spec:
   owner: web@example.com
-  type: website
+  type: service
+
   parameters:
     - title: Provide some simple information
       required:
-        - component_id
-        - owner
+        - project_name
+        - project_slug
       properties:
-        component_id:
-          title: Name
-          type: string
-          description: Unique name of the component
-        description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-        project_slug:
-          title: Project Slug
-          type: string
-          description: Project Name no-spaces
         project_name:
           title: Project Name
           type: string
           description: The name of the project
+        project_slug:
+          title: Project Slug
+          type: string
+          description: Project Name no-spaces
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
         repoVisibility:
           title: Repository Visibility
           type: string
-          description: Public/Private
-        owner:
-          title: Owner
-          type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            allowedKinds:
-              - Group
+          description: public/private
+          default: public
     - title: Choose a location
       required:
         - repoUrl
@@ -65,19 +55,17 @@ spec:
         copyWithoutRender:
           - .github/workflows/*
         values:
-          component_id: '{{ parameters.component_id }}'
           project_slug: '{{ parameters.project_slug }}'
           project_name: '{{ parameters.project_name }}'
           description: '{{ parameters.description }}'
           destination: '{{ parseRepoUrl parameters.repoUrl }}'
-          owner: '{{ parameters.owner }}'
 
     - id: publish
       name: Publish
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: 'This is {{ parameters.component_id }}'
+        description: '{{ parameters.description }}'
         repoUrl: '{{ parameters.repoUrl }}'
         repoVisibility: '{{ parameters.repoVisibility }}'
 
