@@ -33,6 +33,10 @@ spec:
           title: Project Name
           type: string
           description: The name of the project
+        repoVisibility:
+          title: Repository Visibility
+          type: string
+          description: Public/Private
         owner:
           title: Owner
           type: string
@@ -75,6 +79,7 @@ spec:
         allowedHosts: ['github.com']
         description: 'This is {{ parameters.component_id }}'
         repoUrl: '{{ parameters.repoUrl }}'
+        repoVisibility: '{{ parameters.repoVisability }}'
 
     - id: register
       name: Register
