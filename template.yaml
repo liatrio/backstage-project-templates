@@ -25,6 +25,14 @@ spec:
           title: Description
           type: string
           description: Help others understand what this website is for.
+        project_slug:
+          title: Project Slug
+          type: string
+          description: Project Name no-spaces
+        project_name:
+          title: Project Name
+          type: string
+          description: The name of the project
         owner:
           title: Owner
           type: string
@@ -54,6 +62,8 @@ spec:
           - .github/workflows/*
         values:
           component_id: '{{ parameters.component_id }}'
+          project_slug: '{{ parameters.project_slug }}'
+          project_name: '{{ parameters.project_name }}'
           description: '{{ parameters.description }}'
           destination: '{{ parseRepoUrl parameters.repoUrl }}'
           owner: '{{ parameters.owner }}'
