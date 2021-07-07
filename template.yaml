@@ -79,7 +79,7 @@ spec:
         allowedHosts: ['github.com']
         description: 'This is {{ parameters.component_id }}'
         repoUrl: '{{ parameters.repoUrl }}'
-        repoVisibility: '{{ parameters.repoVisability }}'
+        access: '{{ parameters.repoVisability }}'
 
     - id: register
       name: Register
