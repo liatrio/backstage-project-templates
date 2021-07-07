@@ -1,35 +1,20 @@
 {
-  "name": "botkit-gratibot",
+  "name": "{{ cookiecutter.project_slug }}",
   "version": "1.0.0",
   "description": "",
-  "main": "bot.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "nyc --all --include '*/**' mocha test/* --recursive --require test/setup.js",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint '*.js' 'features/**' 'test/**'",
-    "test-n-lint": "npm test && npm run lint",
-    "lint-fix": "eslint '*.js' 'features/**' 'test/**' --fix"
+    "lint": "eslint '*.js' 'features/**'",
+    "lint-fix": "eslint '*.js' 'features/**' --fix"
   },
   "dependencies": {
-    "@slack/bolt": "^3.4.0",
-    "dotenv": "^10.0.0",
-    "moment-timezone": "^0.5.31",
-    "monk": "^7.3.1",
-    "winston": "^3.3.3"
+    "@slack/bolt": "^3.4.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chance": "^1.1.6",
-    "codecov": "^3.8.1",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "mocha": "^9.0.1",
-    "mocha-suppress-logs": "^0.3.1",
-    "nyc": "^15.1.0",
-    "prettier": "^2.3.1",
-    "sinon": "^11.1.1"
+    "prettier": "^2.3.1"
   }
 }

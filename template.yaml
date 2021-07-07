@@ -1,12 +1,13 @@
 apiVersion: backstage.io/v1beta2
 kind: Template
 metadata:
-  name: create-react-app-template
-  title: Create React App Template
-  description: Create a new CRA website project
+  name: slack-bolt-template
+  title: Bolt Slackbot Template
+  description: Create a new Slackbot project
   tags:
-    - react
-    - cra
+    - bolt
+    - slack
+    - node
 spec:
   owner: web@example.com
   type: website
