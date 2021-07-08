@@ -1,41 +1,44 @@
 apiVersion: backstage.io/v1beta2
 kind: Template
 metadata:
-  name: create-react-app-template
-  title: Create React App Template
-  description: Create a new CRA website project
+  name: slack-bolt-template
+  title: Bolt Slackbot Template
+  description: Create a new Slackbot project
   tags:
-    - react
-    - cra
+    - bolt
+    - slack
+    - node
 spec:
   owner: web@example.com
-  type: website
+  type: service
+
   parameters:
     - title: Provide some simple information
       required:
-        - component_id
-        - owner
+        - project_name
+        - project_slug
       properties:
-        component_id:
-          title: Name
+        project_name:
+          title: Project Name
           type: string
-          description: Unique name of the component
+          description: The name of the project
+        project_slug:
+          title: Project Slug
+          type: string
+          description: Project Name no-spaces
         description:
           title: Description
           type: string
           description: Help others understand what this website is for.
-        owner:
-          title: Owner
+        repoVisibility:
+          title: Repository Visibility
           type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            allowedKinds: 
-              - Group
-    - title: Choose a location  
+          description: public/private
+          default: public
+    - title: Choose a location
       required:
         - repoUrl
-      properties: 
+      properties:
         repoUrl:
           title: Repository Location
           type: string
@@ -52,25 +55,26 @@ spec:
         copyWithoutRender:
           - .github/workflows/*
         values:
-          component_id: '{{ parameters.component_id }}'
+          project_slug: '{{ parameters.project_slug }}'
+          project_name: '{{ parameters.project_name }}'
           description: '{{ parameters.description }}'
           destination: '{{ parseRepoUrl parameters.repoUrl }}'
-          owner: '{{ parameters.owner }}'
 
     - id: publish
       name: Publish
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: 'This is {{ parameters.component_id }}'
+        description: '{{ parameters.description }}'
         repoUrl: '{{ parameters.repoUrl }}'
+        repoVisibility: '{{ parameters.repoVisibility }}'
 
     - id: register
       name: Register
       action: catalog:register
       input:
         repoContentsUrl: '{{ steps.publish.output.repoContentsUrl }}'
-        catalogInfoPath: '/catalog-info.yaml'
+        catalogInfoPath: '/catalog.yaml'
 
   output:
     remoteUrl: '{{ steps.publish.output.remoteUrl }}'

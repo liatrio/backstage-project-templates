@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: {{ cookiecutter.project_slug }}
+  description: {{ cookiecutter.description }}
+  annotations:
+    github.com/project-slug: 'liatrio/{{ cookiecutter.project_slug }}'
+  tags:
+    - node
+    - javascript
+    - bolt
+spec:
+  type: service
+  lifecycle: production
+  owner: liatrio
+  system: {{ cookiecutter.project_slug }}
