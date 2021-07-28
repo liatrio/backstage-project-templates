@@ -1,0 +1,78 @@
+apiVersion: backstage.io/v1beta2
+kind: Template
+metadata:
+  name: docsify-template
+  title: Docsify Template
+  description: Create a new Docsify project
+  tags:
+    - docsify
+    - documentation
+spec:
+  owner: web@example.com
+  type: service
+
+  parameters:
+    - title: Provide some simple information
+      required:
+        - project_name
+        - project_slug
+      properties:
+        project_name:
+          title: Project Name
+          type: string
+          description: The name of the project
+        project_slug:
+          title: Project Slug
+          type: string
+          description: Project Name no-spaces
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+        repoVisibility:
+          title: Repository Visibility
+          type: string
+          description: public/private
+          default: public
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+  steps:
+    - id: template
+      name: Fetch Skeleton + Template
+      action: fetch:cookiecutter
+      input:
+        url: ./skeleton
+        values:
+          project_slug: '{{ parameters.project_slug }}'
+          project_name: '{{ parameters.project_name }}'
+          description: '{{ parameters.description }}'
+          destination: '{{ parseRepoUrl parameters.repoUrl }}'
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: '{{ parameters.description }}'
+        repoUrl: '{{ parameters.repoUrl }}'
+        repoVisibility: '{{ parameters.repoVisibility }}'
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: '{{ steps.publish.output.repoContentsUrl }}'
+        catalogInfoPath: '/catalog.yaml'
+
+  output:
+    remoteUrl: '{{ steps.publish.output.remoteUrl }}'
+    entityRef: '{{ steps.register.output.entityRef }}'
